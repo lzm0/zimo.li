@@ -16,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="antialiased max-w-2xl my-40 mx-auto">{children}</body>
+      <body className="antialiased max-w-2xl my-40 mx-6 md:mx-auto">
+        {children}
+      </body>
     </html>
   );
 }
