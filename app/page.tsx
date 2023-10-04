@@ -9,6 +9,7 @@ export default function Home() {
         </h1>
         <p>I'm a software engineer in Toronto. Wanna know more about me? 👇</p>
       </section>
+      <div className="w-full"></div>
     </main>
   );
 }
