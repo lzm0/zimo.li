@@ -1,6 +1,7 @@
 .wave {
   animation-name: wave-animation;
   animation-duration: 3s;
+  animation-delay: 3s;
   transform-origin: 70% 70%;
   display: inline-block;
 }
