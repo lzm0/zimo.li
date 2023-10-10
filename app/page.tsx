@@ -7,7 +7,7 @@ export default function Home() {
   const lang = getLanguage();
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-screen antialiased max-w-2xl my-20 mx-6 md:mx-auto">
       <LanguageToggle lang={lang} />
       <section className="prose prose-neutral dark:prose-invert my-20">
         {lang === "en" ? <English /> : <Chinese />}
