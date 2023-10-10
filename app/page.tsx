@@ -1,20 +1,33 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import WavingHand from "./components/waving-hand/waving-hand";
+import LanguageToggle from "./components/language-toggle/language-toggle";
+import Terminal from "./components/terminal/Terminal";
 
 export default function Home() {
-  const lang =
-    headers().get("accept-language")?.split(",")[0].split("-")[0] === "zh"
-      ? "zh"
-      : "en";
+  const lang = getLanguage();
 
   return (
     <main className="flex flex-col min-h-screen">
-      <section className="prose prose-neutral dark:prose-invert">
+      <LanguageToggle lang={lang} />
+      <section className="prose prose-neutral dark:prose-invert my-20">
         {lang === "en" ? <English /> : <Chinese />}
       </section>
-      <div className="w-full"></div>
+      <Terminal />
     </main>
   );
+}
+
+function getLanguage() {
+  const cookieStore = cookies();
+  const cookieLang = cookieStore.get("lang");
+  if (cookieLang === undefined) {
+    return headers().get("accept-language")?.split(",")[0].split("-")[0] ===
+      "zh"
+      ? "zh"
+      : "en";
+  } else {
+    return cookieLang.value;
+  }
 }
 
 function English() {
@@ -25,10 +38,10 @@ function English() {
       </h1>
       <p>
         I'm a <a href="https://github.com/lzm0">software engineer</a> based in
-        Toronto. I specialize in unraveling complex problems through simple,
-        elegant solutions, all the while embracing continuous learning. Find me
-        on <a href="https://www.linkedin.com/in/li-zimo/">LinkedIn</a> if you
-        want to get in touch.
+        Toronto. I enjoy solving complex problems through simple, elegant
+        solutions while learning new things along the way. Find me on{" "}
+        <a href="https://www.linkedin.com/in/li-zimo/">LinkedIn</a> if you want
+        to get in touch.
       </p>
       <p>If you would like know more about me, 👇</p>
     </>
