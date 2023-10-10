@@ -21,6 +21,6 @@ body {
 
 @layer base {
   a {
-    @apply no-underline hover:text-blue-500 transition !important;
+    @apply no-underline hover:text-pink-500 transition !important;
   }
 }
