@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 16, 16, 16;
   --background-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-rgb: 0, 0, 0;
+    --background-rgb: 16, 16, 16;
   }
 }
 
@@ -19,8 +19,10 @@ body {
   background: rgb(var(--background-rgb));
 }
 
-@layer base {
-  a {
-    @apply no-underline hover:text-pink-500 transition !important;
-  }
+::selection {
+  @apply bg-pink-500 text-gray-50;
+}
+
+.prose a {
+  @apply transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
 }
