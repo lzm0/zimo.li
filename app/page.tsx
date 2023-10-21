@@ -1,13 +1,13 @@
 import { cookies, headers } from "next/headers";
 import WavingHand from "./components/waving-hand/waving-hand";
 import LanguageToggle from "./components/language-toggle/language-toggle";
-import Terminal from "./components/terminal/Terminal";
+import Terminal from "./components/terminal/terminal";
 
 export default function Home() {
   const lang = getLanguage();
 
   return (
-    <main className="flex flex-col min-h-screen antialiased max-w-2xl my-20 mx-6 md:mx-auto">
+    <main className="flex flex-col min-h-screen antialiased max-w-2xl mt-20 mx-6 md:mx-auto">
       <LanguageToggle lang={lang} />
       <section className="prose prose-neutral dark:prose-invert my-16">
         {lang === "en" ? <English /> : <Chinese />}
@@ -34,11 +34,11 @@ function English() {
   return (
     <>
       <h1 className="font-semibold text-2xl tracking-tight mb-16">
-        Hi there, I'm Zimo <WavingHand />
+        Hi there, I&apos;m Zimo <WavingHand />
       </h1>
       <p>
-        I'm a <a href="https://github.com/lzm0">software engineer</a> based in
-        Toronto. I enjoy solving complex problems with simple solutions while
+        I&apos;m a <a href="https://github.com/lzm0">software engineer</a> based
+        in Toronto. I enjoy solving complex problems with simple solutions while
         learning new things along the way. I also{" "}
         <a href="https://blog.zimo.li">blog</a> about technical stuff that I
         find interesting. Find me on{" "}
