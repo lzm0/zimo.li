@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Output from "./output";
+import FakeCaret from "./fake-caret/fake-caret";
 
 function Prompt() {
   return (
@@ -24,6 +25,7 @@ export default function Terminal() {
   const [history, setHistory] = useState<string[]>([]);
   const [command, setCommand] = useState("");
   const [pointer, setPointer] = useState(0);
+  const [hideCaret, setHideCaret] = useState(false);
 
   const clearHistory = () => {
     setHistory([]);
@@ -75,6 +77,10 @@ export default function Terminal() {
     }
   };
 
+  const handleFocus = () => {
+    setHideCaret(true);
+  };
+
   return (
     <pre
       className="flex-1 w-full font-mono pb-[50vh] whitespace-pre-wrap overflow-clip"
@@ -90,15 +96,16 @@ export default function Terminal() {
       ))}
       <form onSubmit={handleSubmit} ref={formRef} className="flex">
         <Prompt />
+        {!hideCaret && <FakeCaret />}
         <input
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
           value={command}
           ref={inputRef}
           id="command"
           type="text"
           className="flex-1 caret-neutral-500 bg-transparent outline-none"
-          autoFocus
           autoComplete="off"
           spellCheck={false}
           autoCapitalize="off"
