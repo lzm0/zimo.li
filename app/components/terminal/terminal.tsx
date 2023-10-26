@@ -77,7 +77,7 @@ export default function Terminal() {
 
   return (
     <pre
-      className="flex-1 w-full font-mono pb-[50vh] break-all whitespace-pre-wrap"
+      className="flex-1 w-full font-mono pb-[50vh] whitespace-pre-wrap overflow-clip"
       onClick={() => inputRef.current?.focus()}
     >
       {history.map((command, index) => (

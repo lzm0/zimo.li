@@ -7,6 +7,11 @@ const inter = Inter({ subsets: ["latin"], display: "block" });
 export const metadata: Metadata = {
   title: "Zimo Li",
   description: "My portfolio website",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({
