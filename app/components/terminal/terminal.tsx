@@ -5,7 +5,7 @@ import Output from "./output";
 
 function Prompt() {
   return (
-    <span>
+    <span className="break-keep">
       <label htmlFor="command">
         <span className="text-green-500 font-bold">guest@zimo.li</span>
         <span className="font-bold">:</span>
