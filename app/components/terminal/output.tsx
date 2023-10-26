@@ -46,7 +46,7 @@ export default function Output({
     const program = argv[0];
     if (program === "") return "";
     if (program === "help")
-      return `Available commands: ${Object.keys(commands).sort().join(", ")}`;
+      return `available commands: ${Object.keys(commands).sort().join(", ")}`;
     if (Object.keys(commands).includes(argv[0])) return commands[program](argv);
     return `command not found: ${program}`;
   };
