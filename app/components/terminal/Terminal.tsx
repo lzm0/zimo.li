@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Output from "./output";
 
 function Prompt() {
   return (
@@ -75,14 +76,16 @@ export default function Terminal() {
   };
 
   return (
-    <div
-      className="flex-1 w-full font-mono pb-[50vh]"
+    <pre
+      className="flex-1 w-full font-mono pb-[50vh] break-all whitespace-pre-wrap"
       onClick={() => inputRef.current?.focus()}
     >
       {history.map((command, index) => (
         <div key={index}>
           <Prompt />
           <span>{command}</span>
+          <br />
+          <Output command={command} clearHistory={clearHistory} />
         </div>
       ))}
       <form onSubmit={handleSubmit} ref={formRef} className="flex">
@@ -101,6 +104,6 @@ export default function Terminal() {
           autoCapitalize="off"
         />
       </form>
-    </div>
+    </pre>
   );
 }

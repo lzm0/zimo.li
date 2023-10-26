@@ -45,7 +45,6 @@ function English() {
         <a href="https://www.linkedin.com/in/li-zimo/">LinkedIn</a> if you want
         to get in touch.
       </p>
-      <p>If you would like know more about me, 👇</p>
     </>
   );
 }
@@ -64,7 +63,6 @@ function Chinese() {
         <a href="https://www.linkedin.com/in/li-zimo/">领英</a>
         联系我。
       </p>
-      <p>如果您想了解更多关于我，👇</p>
     </>
   );
 }
