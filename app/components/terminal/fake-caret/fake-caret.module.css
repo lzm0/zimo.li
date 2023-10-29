@@ -6,6 +6,7 @@
   animation-name: blink;
   animation-duration: 1s;
   animation-iteration-count: infinite;
+  animation-timing-function: step-start;
 }
 
 @keyframes blink {
