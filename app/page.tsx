@@ -36,18 +36,20 @@ function English() {
       <h1 className="font-semibold text-2xl tracking-tight mb-16">
         Hi there, I&apos;m Zimo <WavingHand />
       </h1>
-      <p>
-        I&apos;m a <a href="https://github.com/lzm0">software engineer</a> based
-        in Toronto.
-      </p>
-      <p>
-        I <a href="https://blog.zimo.li">blog</a> about technical stuff that I
-        find interesting.
-      </p>
-      <p>
-        Find me on <a href="https://www.linkedin.com/in/li-zimo/">LinkedIn</a>{" "}
-        if you want to get in touch!
-      </p>
+      <ul>
+        <li>
+          I&apos;m a <a href="https://github.com/lzm0">software engineer</a>{" "}
+          based in Toronto.
+        </li>
+        <li>
+          I <a href="https://blog.zimo.li">blog</a> about technical stuff that I
+          find interesting.
+        </li>
+        <li>
+          Find me on <a href="https://www.linkedin.com/in/li-zimo/">LinkedIn</a>{" "}
+          if you want to get in touch!
+        </li>
+      </ul>
     </>
   );
 }
@@ -58,18 +60,20 @@ function Chinese() {
       <h1 className="font-semibold text-2xl tracking-tight mb-16">
         你好，我是子沫 <WavingHand />
       </h1>
-      <p>
-        加拿大多伦多<a href="https://github.com/lzm0">程序员</a>一枚。
-      </p>
-      <p>
-        有一个
-        <a href="https://blog.zimo.li">博客</a>。
-      </p>
-      <p>
-        欢迎在
-        <a href="https://www.linkedin.com/in/li-zimo/">领英</a>
-        上和我打招呼！
-      </p>
+      <ul>
+        <li>
+          加拿大多伦多<a href="https://github.com/lzm0">程序员</a>一枚
+        </li>
+        <li>
+          有一个
+          <a href="https://blog.zimo.li">博客</a>
+        </li>
+        <li>
+          欢迎在
+          <a href="https://www.linkedin.com/in/li-zimo/">领英</a>
+          上和我打招呼！
+        </li>
+      </ul>
     </>
   );
 }
