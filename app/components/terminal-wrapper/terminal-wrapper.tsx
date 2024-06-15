@@ -7,6 +7,7 @@ import { FitAddon } from "@xterm/addon-fit";
 import "../../../node_modules/@xterm/xterm/css/xterm.css";
 import { JetBrains_Mono } from "next/font/google";
 import React from "react";
+import TrafficLight from "./traffic-light";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -23,7 +24,7 @@ export default class TerminalWrapper extends React.Component {
     this.terminalRef = React.createRef();
     this.terminal = new Terminal({
       cursorBlink: true,
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: jetbrainsMono.style.fontFamily,
       theme: {
         background: "#282a36",
@@ -70,7 +71,8 @@ export default class TerminalWrapper extends React.Component {
 
   render() {
     return (
-      <div className="w-full h-96 p-8 bg-[#282a36] border border-gray-700 shadow-lg rounded-xl subpixel-antialiased">
+      <div className="w-full h-96 p-5 pt-12 relative bg-[#282a36] border border-gray-700 shadow-lg rounded-xl subpixel-antialiased">
+        <TrafficLight />
         <div className="w-full h-full" ref={this.terminalRef}></div>
       </div>
     );
