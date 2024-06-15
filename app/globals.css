@@ -26,3 +26,11 @@ body {
 .prose a {
   @apply transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
 }
+
+.xterm-viewport::-webkit-scrollbar {
+  @apply bg-transparent w-1;
+}
+
+.xterm-viewport::-webkit-scrollbar-thumb {
+  @apply bg-neutral-400 rounded-full;
+}
