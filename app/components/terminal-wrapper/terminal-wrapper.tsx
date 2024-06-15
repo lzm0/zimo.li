@@ -1,17 +1,16 @@
 "use client";
 
 import { Terminal } from "@xterm/xterm";
-import { useRef, useEffect } from "react";
 import { AttachAddon } from "@xterm/addon-attach";
 import { FitAddon } from "@xterm/addon-fit";
 import "../../../node_modules/@xterm/xterm/css/xterm.css";
-import { JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import React from "react";
 import TrafficLight from "./traffic-light";
 
-const jetbrainsMono = JetBrains_Mono({
+const mono = IBM_Plex_Mono({
+  weight: ["400", "600"],
   subsets: ["latin"],
-  display: "block",
 });
 
 export default class TerminalWrapper extends React.Component {
@@ -25,7 +24,7 @@ export default class TerminalWrapper extends React.Component {
     this.terminal = new Terminal({
       cursorBlink: true,
       fontSize: 14,
-      fontFamily: jetbrainsMono.style.fontFamily,
+      fontFamily: mono.style.fontFamily,
       theme: {
         background: "#282a36",
         black: "#21222c",
