@@ -3,7 +3,7 @@
 import { Terminal } from "@xterm/xterm";
 import { AttachAddon } from "@xterm/addon-attach";
 import { FitAddon } from "@xterm/addon-fit";
-import "../../../node_modules/@xterm/xterm/css/xterm.css";
+import "../../node_modules/@xterm/xterm/css/xterm.css";
 import { IBM_Plex_Mono } from "next/font/google";
 import React from "react";
 import TrafficLight from "./traffic-light";

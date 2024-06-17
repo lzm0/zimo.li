@@ -1,12 +1,11 @@
 import { cookies, headers } from "next/headers";
 import WavingHand from "./components/waving-hand/waving-hand";
-import LanguageToggle from "./components/language-toggle/language-toggle";
+import LanguageToggle from "./components/language-toggle";
 import dynamic from "next/dynamic";
 
-const Shell = dynamic(
-  () => import("./components/terminal-wrapper/terminal-wrapper"),
-  { ssr: false }
-);
+const Shell = dynamic(() => import("./components/terminal-wrapper"), {
+  ssr: false,
+});
 
 export default function Home() {
   const lang = getLanguage();
