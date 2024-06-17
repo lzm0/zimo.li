@@ -3,7 +3,7 @@ import WavingHand from "./components/waving-hand/waving-hand";
 import LanguageToggle from "./components/language-toggle";
 import dynamic from "next/dynamic";
 
-const Shell = dynamic(() => import("./components/terminal-wrapper"), {
+const TerminalWrapper = dynamic(() => import("./components/terminal-wrapper"), {
   ssr: false,
 });
 
@@ -16,7 +16,7 @@ export default function Home() {
       <section className="prose prose-neutral dark:prose-invert my-16">
         {lang === "en" ? <English /> : <Chinese />}
       </section>
-      <Shell />
+      <TerminalWrapper />
     </main>
   );
 }

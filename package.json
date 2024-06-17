@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xterm/addon-attach": "^0.11.0",
-    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-attach": "latest",
+    "@xterm/addon-fit": "latest",
     "@xterm/xterm": "latest",
+    "framer-motion": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
