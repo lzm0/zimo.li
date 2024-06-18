@@ -45,18 +45,19 @@ export default function TerminalWrapper() {
     },
   });
 
-  let socket: WebSocket | null = null;
+  const socketRef = useRef<WebSocket | null>(null);
 
   const close = () => {
     terminal.dispose();
-    socket?.close();
+    socketRef.current?.close();
     setIsOpen(false);
   };
 
   const controls = useDragControls();
 
   useEffect(() => {
-    socket = new WebSocket("wss://ca.zimo.li/ws");
+    const socket = new WebSocket("wss://ca.zimo.li/ws");
+    socketRef.current = socket;
     const websocketAddon = new AttachAddon(socket);
     const resizeAddon = new FitAddon();
 
