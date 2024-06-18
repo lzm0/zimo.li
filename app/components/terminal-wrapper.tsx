@@ -3,11 +3,11 @@
 import { Terminal } from "@xterm/xterm";
 import { AttachAddon } from "@xterm/addon-attach";
 import { FitAddon } from "@xterm/addon-fit";
-import "../../node_modules/@xterm/xterm/css/xterm.css";
 import { IBM_Plex_Mono } from "next/font/google";
-import { useRef, useEffect, useState, PointerEvent } from "react";
+import { useRef, useEffect, useState } from "react";
 import TrafficLight from "./traffic-light";
 import { motion, useDragControls } from "framer-motion";
+import "../../node_modules/@xterm/xterm/css/xterm.css";
 
 const mono = IBM_Plex_Mono({
   weight: ["400", "600"],
@@ -16,7 +16,6 @@ const mono = IBM_Plex_Mono({
 
 export default function TerminalWrapper() {
   const terminalRef = useRef<HTMLDivElement>(null);
-  const constraintsRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(true);
 
   const terminal = new Terminal({
