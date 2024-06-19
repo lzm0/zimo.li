@@ -6,7 +6,7 @@ import { FitAddon } from "@xterm/addon-fit";
 import { IBM_Plex_Mono } from "next/font/google";
 import { useRef, useEffect, useState } from "react";
 import TrafficLight from "./traffic-light";
-import { motion, useDragControls } from "framer-motion";
+import { AnimatePresence, motion, useDragControls } from "framer-motion";
 import "../../node_modules/@xterm/xterm/css/xterm.css";
 
 const mono = IBM_Plex_Mono({
@@ -15,40 +15,41 @@ const mono = IBM_Plex_Mono({
 });
 
 export default function TerminalWrapper() {
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<Terminal>(
+    new Terminal({
+      cursorBlink: true,
+      fontSize: 14,
+      fontFamily: mono.style.fontFamily,
+      theme: {
+        background: "#282a36",
+        black: "#21222c",
+        blue: "#bd93f9",
+        brightBlack: "#6272a4",
+        brightBlue: "#d6acff",
+        brightCyan: "#a4ffff",
+        brightGreen: "#69ff94",
+        brightMagenta: "#ff92df",
+        brightRed: "#ff6e6e",
+        brightWhite: "#ffffff",
+        brightYellow: "#ffffa5",
+        cursor: "#ff79c6",
+        cyan: "#8be9fd",
+        foreground: "#f8f8f2",
+        green: "#50fa7b",
+        magenta: "#ff79c6",
+        red: "#ff5555",
+        white: "#f8f8f2",
+        yellow: "#f1fa8c",
+      },
+    }),
+  );
+
   const [isOpen, setIsOpen] = useState(true);
 
-  const terminal = new Terminal({
-    cursorBlink: true,
-    fontSize: 14,
-    fontFamily: mono.style.fontFamily,
-    theme: {
-      background: "#282a36",
-      black: "#21222c",
-      blue: "#bd93f9",
-      brightBlack: "#6272a4",
-      brightBlue: "#d6acff",
-      brightCyan: "#a4ffff",
-      brightGreen: "#69ff94",
-      brightMagenta: "#ff92df",
-      brightRed: "#ff6e6e",
-      brightWhite: "#ffffff",
-      brightYellow: "#ffffa5",
-      cursor: "#ff79c6",
-      cyan: "#8be9fd",
-      foreground: "#f8f8f2",
-      green: "#50fa7b",
-      magenta: "#ff79c6",
-      red: "#ff5555",
-      white: "#f8f8f2",
-      yellow: "#f1fa8c",
-    },
-  });
-
-  const socketRef = useRef<WebSocket | null>(null);
-
   const close = () => {
-    terminal.dispose();
+    terminalRef.current.dispose();
     socketRef.current?.close();
     setIsOpen(false);
   };
@@ -61,10 +62,10 @@ export default function TerminalWrapper() {
     const websocketAddon = new AttachAddon(socket);
     const resizeAddon = new FitAddon();
 
+    const terminal = terminalRef.current;
     terminal.loadAddon(websocketAddon);
     terminal.loadAddon(resizeAddon);
-
-    terminal.open(terminalRef.current!);
+    terminal.open(terminalContainerRef.current!);
     terminal.focus();
 
     resizeAddon.fit();
@@ -72,23 +73,42 @@ export default function TerminalWrapper() {
 
     return () => {
       terminal.dispose();
+      socket.close();
     };
   }, []);
 
-  return isOpen ? (
-    <motion.div
-      drag
-      dragControls={controls}
-      dragMomentum={false}
-      transition={{ delay: 0.5 }}
-      animate={{ scale: 1, y: 0, opacity: 1 }}
-      initial={{ scale: 0, y: 100, opacity: 0 }}
-      className="w-full h-96 p-5 pt-12 relative bg-[#282a36] border border-gray-700 shadow-lg rounded-xl subpixel-antialiased"
-    >
-      <TrafficLight onClose={close} />
-      <div className="w-full h-full" ref={terminalRef}></div>
-    </motion.div>
-  ) : (
-    <></>
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          drag
+          dragControls={controls}
+          dragMomentum={false}
+          animate={{
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: { duration: 0.5, ease: "easeOut" },
+          }}
+          exit={{
+            y: -20,
+            filter: "blur(10px)",
+            opacity: 0,
+            transition: { ease: "easeIn", duration: 0.2 },
+          }}
+          initial={{
+            scale: 0.8,
+            y: 20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          className="w-full h-96 p-5 pt-12 relative bg-[#282a36] border border-gray-700 shadow-lg rounded-xl subpixel-antialiased"
+        >
+          <TrafficLight onClose={close} />
+          <div className="w-full h-full" ref={terminalContainerRef}></div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
