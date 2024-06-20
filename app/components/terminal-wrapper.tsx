@@ -4,9 +4,14 @@ import { Terminal } from "@xterm/xterm";
 import { AttachAddon } from "@xterm/addon-attach";
 import { FitAddon } from "@xterm/addon-fit";
 import { IBM_Plex_Mono } from "next/font/google";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, PointerEvent } from "react";
 import TrafficLight from "./traffic-light";
-import { AnimatePresence, motion, useDragControls } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useDragControls,
+  useMotionValue,
+} from "framer-motion";
 import "../../node_modules/@xterm/xterm/css/xterm.css";
 
 const mono = IBM_Plex_Mono({
@@ -43,7 +48,7 @@ export default function TerminalWrapper() {
         white: "#f8f8f2",
         yellow: "#f1fa8c",
       },
-    }),
+    })
   );
 
   const [isOpen, setIsOpen] = useState(true);
@@ -77,34 +82,42 @@ export default function TerminalWrapper() {
     };
   }, []);
 
+  const startDrag = (event: PointerEvent) => {
+    controls.start(event);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
           drag
           dragControls={controls}
+          dragListener={false}
           dragMomentum={false}
           animate={{
             scale: 1,
             y: 0,
             opacity: 1,
             filter: "blur(0px)",
-            transition: { delay: 1, duration: 0.5, ease: "easeOut" },
+            transition: { delay: 0, duration: 0.5, ease: "easeOut" },
           }}
           exit={{
-            y: -20,
             filter: "blur(10px)",
             opacity: 0,
             transition: { ease: "easeIn", duration: 0.2 },
           }}
           initial={{
+            y: 40,
             scale: 0.8,
-            y: 20,
             opacity: 0,
             filter: "blur(10px)",
           }}
           className="w-full h-96 p-5 pt-12 relative bg-[#282a36] border border-gray-700 shadow-lg rounded-xl subpixel-antialiased"
         >
+          <motion.div
+            onPointerDown={startDrag}
+            className="absolute top-0 left-0 w-full h-12"
+          ></motion.div>
           <TrafficLight onClose={close} />
           <div className="w-full h-full" ref={terminalContainerRef}></div>
         </motion.div>
