@@ -99,7 +99,7 @@ export default function TerminalWrapper() {
             y: 0,
             opacity: 1,
             filter: "blur(0px)",
-            transition: { delay: 0, duration: 0.5, ease: "easeOut" },
+            transition: { delay: 1, duration: 0.5, ease: "easeOut" },
           }}
           exit={{
             filter: "blur(10px)",
