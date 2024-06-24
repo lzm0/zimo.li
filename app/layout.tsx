@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], display: "block" });
+const sans = DM_Sans({ subsets: ["latin"], display: "block" });
 
 export const metadata: Metadata = {
   title: "Zimo Li",
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className + " scroll-smooth"}>
+    <html lang="en" className={sans.className + " scroll-smooth"}>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body>{children}</body>
     </html>
