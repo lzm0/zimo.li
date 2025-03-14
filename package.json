@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "@xterm/addon-attach": "latest",
     "@xterm/addon-fit": "latest",
     "@xterm/xterm": "latest",
