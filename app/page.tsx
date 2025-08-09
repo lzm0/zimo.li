@@ -1,14 +1,10 @@
 import { cookies, headers } from "next/headers";
 import WavingHand from "./components/waving-hand/waving-hand";
 import LanguageToggle from "./components/language-toggle";
-import dynamic from "next/dynamic";
+import TerminalWrapper from "./components/terminal-wrapper";
 
-const TerminalWrapper = dynamic(() => import("./components/terminal-wrapper"), {
-  ssr: false,
-});
-
-export default function Home() {
-  const lang = getLanguage();
+export default async function Home() {
+  const lang = await getLanguage();
 
   return (
     <main className="flex flex-col antialiased max-w-2xl mt-20 mx-6 md:mx-auto">
@@ -21,14 +17,12 @@ export default function Home() {
   );
 }
 
-function getLanguage() {
-  const cookieStore = cookies();
+async function getLanguage() {
+  const cookieStore = await cookies();
   const cookieLang = cookieStore.get("lang");
   if (cookieLang === undefined) {
-    return headers().get("accept-language")?.split(",")[0].split("-")[0] ===
-      "zh"
-      ? "zh"
-      : "en";
+    const acceptLanguage = (await headers()).get("accept-language");
+    return acceptLanguage?.split(",")[0].split("-")[0] === "zh" ? "zh" : "en";
   } else {
     return cookieLang.value;
   }
