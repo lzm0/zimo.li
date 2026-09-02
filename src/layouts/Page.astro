@@ -1,0 +1,73 @@
+---
+import Analytics from "@vercel/analytics/astro";
+import { locales, localeUrl, ui, type Locale } from "../i18n";
+import "../styles/global.css";
+import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import geistMonoLatin from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+  image?: string;
+  switchTo?: string;
+}
+
+const { locale, title, description = ui[locale].description, image, switchTo } = Astro.props;
+const t = ui[locale];
+const path = Astro.url.pathname;
+const initials: Record<Locale, string> = { en: "A", zh: "文" };
+---
+
+<html lang={locale} class="scheme-light-dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geistMonoLatin} as="font" type="font/woff2" crossorigin />
+    <title>{title ? `${title} · ${t.name}` : t.name}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(path, Astro.site)} />
+    {!switchTo &&
+      locales.map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(localeUrl(l, path), Astro.site)} />
+      ))}
+    <meta property="og:title" content={title ?? t.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={image ? "article" : "website"} />
+    <meta property="og:locale" content={locale} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#100f0e" />
+  </head>
+  <body
+    class="bg-paper text-ink selection:bg-accent selection:text-paper grid min-h-dvh grid-rows-[1fr_auto_1fr] gap-16 px-6 py-16 font-sans antialiased"
+  >
+    <header class="mx-auto flex w-full max-w-xl items-baseline justify-between gap-4 self-end select-none">
+      <a class="hover:text-accent font-semibold tracking-tight" href={localeUrl(locale, "/")}>
+        {t.name}
+      </a>
+      <nav class="text-muted flex items-baseline gap-5 text-sm">
+        <a class="text-ink hover:text-accent" href={localeUrl(locale, "/posts")}>{t.posts}</a>
+        <span class="flex items-baseline gap-1.5">
+          {locales.map((l, i) => (
+            <>
+              {i > 0 && <span class="text-rule">/</span>}
+              {l === locale ? (
+                <span class="text-ink" aria-current="true">{initials[l]}</span>
+              ) : (
+                <a class="hover:text-accent" href={localeUrl(l, switchTo ?? path)} hreflang={l}>
+                  {initials[l]}
+                </a>
+              )}
+            </>
+          ))}
+        </span>
+      </nav>
+    </header>
+    <main class="mx-auto w-full min-w-0 max-w-xl"><slot /></main>
+    <Analytics />
+  </body>
+</html>

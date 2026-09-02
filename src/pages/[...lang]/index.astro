@@ -1,0 +1,24 @@
+---
+import Page from "../../layouts/Page.astro";
+import { langParam, locales, localeUrl, ui } from "../../i18n";
+
+export const getStaticPaths = () =>
+  locales.map((locale) => ({ params: { lang: langParam(locale) }, props: { locale } }));
+
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<Page {locale}>
+  <h1
+    class="mb-6 text-xl font-semibold tracking-tighter text-balance sm:text-2xl"
+  >
+    {t.greeting}
+    <span class="animate-wave motion-reduce:animate-none ml-[0.35em] inline-block origin-[70%_70%] select-none">👋</span>
+  </h1>
+  <ul
+    class="marker:text-muted max-w-lg list-disc space-y-2.5 ps-5 text-base text-pretty leading-normal [&_a]:underline [&_a]:decoration-rule [&_a]:underline-offset-4 [&_a:hover]:text-accent"
+  >
+    {t.bio(localeUrl(locale, "/posts")).map((line) => <li set:html={line} />)}
+  </ul>
+</Page>

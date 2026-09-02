@@ -1,0 +1,47 @@
+---
+import { render } from "astro:content";
+import Page from "../../../layouts/Page.astro";
+import { formatDate, langParam, localeUrl, ui } from "../../../i18n";
+import { excerpt, getPosts, localeOf } from "../../../posts";
+
+export const getStaticPaths = async () =>
+  (await getPosts()).map((post) => {
+    const locale = localeOf(post);
+    return {
+      params: { lang: langParam(locale), slug: post.data.slug },
+      props: { locale, post },
+    };
+  });
+
+const { locale, post } = Astro.props;
+const { title, date, tags, cover } = post.data;
+const { Content } = await render(post);
+---
+
+<Page {locale} {title} description={excerpt(post.body)} image={cover?.src} switchTo="/posts">
+  <article>
+    <header class="mb-12">
+      <time class="text-muted text-xs tracking-wide" datetime={date.toISOString()}>
+        {formatDate(date, locale)}
+      </time>
+      <h1
+        class="mt-2.5 mb-5 text-xl font-semibold tracking-tighter text-balance sm:text-3xl"
+      >
+        {title}
+      </h1>
+      {tags.length > 0 && (
+        <ul class="text-muted flex flex-wrap gap-1.5 text-xs">
+          {tags.map((tag) => <li class="border-rule rounded-full border px-2.5 py-0.5">{tag}</li>)}
+        </ul>
+      )}
+    </header>
+    <div
+      class="prose prose-neutral dark:prose-invert prose-headings:tracking-tight prose-a:break-words prose-img:rounded-md prose-img:border prose-img:border-rule prose-code:before:content-none prose-code:after:content-none max-w-none"
+    >
+      <Content />
+    </div>
+  </article>
+  <a class="text-muted hover:text-accent mt-18 inline-block text-sm" href={localeUrl(locale, "/posts")}>
+    ← {ui[locale].allPosts}
+  </a>
+</Page>

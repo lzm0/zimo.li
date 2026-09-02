@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Geist Variable", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  --color-paper: light-dark(#fbfaf8, #100f0e);
+  --color-ink: light-dark(#16130f, #e8e3dc);
+  --color-muted: light-dark(#6d665e, #948c82);
+  --color-rule: light-dark(#e5e0d8, #2b2724);
+  --color-accent: light-dark(#b4441f, #e59468);
+
+  --animate-wave: wave 3s ease-in-out 3;
+
+  @keyframes wave {
+    0%,
+    60%,
+    100% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(14deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    30% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-4deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+  }
+}

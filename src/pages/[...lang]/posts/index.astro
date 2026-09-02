@@ -1,0 +1,47 @@
+---
+import Page from "../../../layouts/Page.astro";
+import { formatDate, langParam, locales, localeUrl, ui } from "../../../i18n";
+import { getPosts } from "../../../posts";
+
+export const getStaticPaths = () =>
+  locales.map((locale) => ({ params: { lang: langParam(locale) }, props: { locale } }));
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const posts = await getPosts(locale);
+const yearOf = (date: Date) => date.getUTCFullYear();
+const years = [...new Set(posts.map((post) => yearOf(post.data.date)))];
+
+
+const [other] = locales.filter((l) => l !== locale);
+const otherPosts = other ? await getPosts(other) : [];
+---
+
+<Page {locale} title={t.posts}>
+  <h1 class="text-3xl font-semibold tracking-tight">{t.posts}</h1>
+  <p class="text-muted mt-2 mb-14">{t.postsTagline}</p>
+  {years.map((year) => (
+    <section class="mb-10 grid gap-x-6 sm:grid-cols-[3.5rem_1fr]">
+      <h2 class="text-muted mt-2.5 text-xs tracking-wide">{year}</h2>
+      <ul>
+        {posts
+          .filter((post) => yearOf(post.data.date) === year)
+          .map(({ data }) => (
+            <li class="border-rule flex items-baseline justify-between gap-6 border-t py-2.5 first:border-0">
+              <a class="hover:text-accent text-pretty" href={localeUrl(locale, `/posts/${data.slug}`)}>
+                {data.title}
+              </a>
+              <time class="text-muted shrink-0 text-xs tracking-wide" datetime={data.date.toISOString()}>
+                {formatDate(data.date, locale, { month: "short", day: "numeric" })}
+              </time>
+            </li>
+          ))}
+      </ul>
+    </section>
+  ))}
+  {other && otherPosts.length > 0 && (
+    <a class="text-muted hover:text-accent inline-block text-sm" href={localeUrl(other, "/posts")}>
+      {t.otherPosts(otherPosts.length)}
+    </a>
+  )}
+</Page>
