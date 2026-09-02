@@ -1,0 +1,65 @@
+---
+import Page from "../../layouts/Page.astro";
+import { githubUrl, langParam, linkedinUrl, locales, ui, utorontoUrl } from "../../i18n";
+
+export const getStaticPaths = () =>
+  locales.map((locale) => ({ params: { lang: langParam(locale) }, props: { locale } }));
+
+const { locale } = Astro.props;
+const t = ui[locale];
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": new URL("/#person", Astro.site).href,
+  name: "Zimo Li",
+  url: new URL("/", Astro.site).href,
+  jobTitle: "Software Engineer",
+  address: { "@type": "PostalAddress", addressLocality: "Toronto", addressCountry: "CA" },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Toronto",
+    url: utorontoUrl,
+  },
+  sameAs: [githubUrl, linkedinUrl],
+};
+---
+
+<Page {locale}>
+  <h1
+    class="mb-6 text-2xl font-bold tracking-tighter text-balance"
+  >
+    <span data-greeting>{t.greeting}</span>
+    <span
+      data-wave
+      class="animate-wave motion-reduce:animate-none ml-[0.35em] inline-block origin-[70%_70%] cursor-pointer select-none"
+    >👋</span>
+  </h1>
+  <script is:inline define:vars={{ greetings: t.greetings }}>
+    const hour = new Date().getHours();
+    const greeting =
+      hour >= 5 && hour < 12
+        ? greetings.morning
+        : hour >= 12 && hour < 18
+          ? greetings.afternoon
+          : greetings.evening;
+
+    document.querySelector("[data-greeting]").textContent = greeting;
+  </script>
+  <ul
+    class="marker:text-muted max-w-lg list-disc space-y-2.5 ps-5 text-base text-pretty leading-normal [&_a]:underline [&_a]:decoration-rule [&_a]:underline-offset-4 [&_a:hover]:text-accent"
+  >
+    {t.bio.map((line) => <li set:html={line} />)}
+  </ul>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(person)} />
+</Page>
+
+<script>
+  const hand = document.querySelector<HTMLElement>("[data-wave]");
+
+  hand?.addEventListener("click", () => {
+    hand.classList.remove("animate-wave");
+    void hand.offsetWidth;
+    hand.classList.add("animate-wave");
+  });
+</script>
